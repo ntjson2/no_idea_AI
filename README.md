@@ -9,9 +9,13 @@ Alex, Dalton and Nathans AI
 
 
 - How to setup on local repo
---  Create .venv            >>>python -m venv .venv
---  Activate venv           >>>.venv\scripts\activate
---  Install requirements    >>>pip install -r requirements.txt
---  Migrate changes         >>>python manage.py migrate
+-- Create .venv
+`>>>python -m venv .venv`
+-- Activate venv
+`>>>.venv\scripts\activate`
+-- Install requirements
+`>>>pip install -r requirements.txt`
+-- Migrate changes
+`>>>python manage.py migrate`
 
 Should be good to run. I'm also sharing .env to make things easier.
