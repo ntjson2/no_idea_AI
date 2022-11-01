@@ -137,6 +137,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 DEFAULT_FROM_EMAIL = "sporkrunner@gmail.com"
 EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_PASSWORD = None                                                        #FIXME removed "env.str("EMAIL_HOST_PASSWORD")" in place of None - dont have .env file
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
