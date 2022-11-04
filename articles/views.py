@@ -6,8 +6,25 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse # new
 from .forms import CommentForm
 from .models import Article
-
 from .models import aiw #testing
+
+from django.template.context_processors import csrf
+from crispy_forms.utils import render_crispy_form
+from jsonview.decorators import json_view
+
+@json_view
+def save_example_form(request):
+    form = ExampleForm(request.POST or None)
+    if form.is_valid():
+        # You could actually save through AJAX and return a success code here
+        form.save()
+        return {'success': True}
+
+
+    ctx = {}
+    ctx.update(csrf(request))
+    form_html = render_crispy_form(form, context=ctx)
+    return {'success': False, 'form_html': form_html}
 
 
 class ArticleListView(LoginRequiredMixin, ListView):
