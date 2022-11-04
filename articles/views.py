@@ -26,6 +26,7 @@ class CommentGet(DetailView):
        context['form'] = CommentForm()
        return context
 
+# Comment post here
 class CommentPost(SingleObjectMixin, FormView): # new
     model = Article
     form_class = CommentForm

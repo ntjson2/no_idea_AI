@@ -19,3 +19,7 @@ Alex, Luke, Haydon and Nathans AI
 `>>>python manage.py migrate`
 
 Should be good to run. I'm also sharing .env to make things easier.
+
+# Branch - nathan
+- Installation of django-jsonview (for crispy AJAX)
+`>>>pip install django-jsonview`
