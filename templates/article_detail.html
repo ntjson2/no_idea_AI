@@ -18,40 +18,88 @@
 <hr>
 <h4>Add a comment</h4>
 
-<!-- 
-<form action="" method="post">{% csrf_token %}
-{{ form|crispy }}
-<button class="btn btn-success ml-2" type="submit">Save</button>
-</form>
--->
+
+<form method="post" id="id-exampleForm">{% csrf_token %}   
+    {{ form|crispy }}      
+    <button id="aibutton" name="aibutton" type="button">Get External Content</button>
+</form>    
+
+
 <script>
-var example_form = '#example-form';
 
-$.ajax({
-    url: "{% url 'save_example_form' %}",
-    type: "POST",
-    data: $(example_form).serialize(),
-    success: function(data) {
-        if (!(data['success'])) {
-            // Here we replace the form, for the
-            $(example_form).replaceWith(data['form_html']);
-            alert('good to go');
-        }
-        else {
-            // Here you can show the user a success message or do whatever you need
-            $(example_form).find('.success-message').show();
-            alert('not good to go');
 
+// using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-    },
-    error: function () {
-        $(example_form).find('.error-message').show()
+        return cookieValue;
     }
-});
-</script>
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    
+    $(document).ready(function(){
+      $("#aibutton").click(function(){
+    
+            event.preventDefault();
+            var example_form = '#id-exampleForm';
+            window.CSRF_TOKEN = "{{ csrf_token }}";
+
+            var d1 = $(example_form).serialize();
+            var cm = $('#id_comment').val();
+          
+            $.ajax({
+                type: "POST",
+                url: "{% url 'article_detail' article.pk %}",          
+                data: d1,
+                csrfmiddlewaretoken: window.CSRF_TOKEN,
+                cai: cm,
+                success: function(data) {
+                    if (!(data['success'])) {
+                        // Here we replace the form, for the
+                        console.log("ajax return ok");
+                        $(example_form).replaceWith(data['form_html']);
+                        $('#id_comment').val(data['ai_response']);
+                       
+                    }else {
+                        // Here you can show the user a success message or do whatever you need
+                        console.log("not ok");
+                        $(example_form).find('.success-message').show();                  
+                    }
+                },
+                error: function () {
+                    $(example_form).find('.error-message').show()
+                }
+            });
+        });
+    });
+    </script>
+
+<!-- {% crispy form %} -->
 
 
-{% crispy form %}
+
 
 <p><a href="{% url 'article_edit' article.pk %}">Edit</a> |
 <a href="{% url 'article_delete' article.pk %}">Delete</a></p>

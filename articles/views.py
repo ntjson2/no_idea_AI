@@ -10,22 +10,30 @@ from .models import aiw #testing
 
 from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
-from jsonview.decorators import json_view
+""" from jsonview.decorators import json_view """
 
-@json_view
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.core import serializers
+from django.shortcuts import HttpResponse
+import json
+
+""" @json_view
 def save_example_form(request):
-    form = ExampleForm(request.POST or None)
+    form = CommentForm(request.POST or None)
     if form.is_valid():
         # You could actually save through AJAX and return a success code here
         form.save()
         return {'success': True}
 
-
     ctx = {}
     ctx.update(csrf(request))
     form_html = render_crispy_form(form, context=ctx)
-    return {'success': False, 'form_html': form_html}
+    return {'success': False, 'form_html': form_html} """
 
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 class ArticleListView(LoginRequiredMixin, ListView):
     model = Article    
@@ -35,6 +43,7 @@ class ArticleListView(LoginRequiredMixin, ListView):
 class CommentGet(DetailView):
     model = Article
     template_name = "article_detail.html"
+  
 
     def get_context_data(self, **kwargs):
        # Call the base implementation first to get a context
@@ -50,6 +59,58 @@ class CommentPost(SingleObjectMixin, FormView): # new
     template_name = "article_detail.html"
 
     def post(self, request, *args, **kwargs):
+
+        #form = self.form_class(self.request.POST)
+
+        """   body_unicode = request.body.decode('utf-8')
+        received_json = json.loads(body_unicode)
+        print(received_json) """
+
+        """ print(request.POST.getlist('id_comment')) """
+        """  print(request.POST) """
+
+        print(request.GET.getlist("cai"))
+
+
+        """   y = json.loads(request.POST)
+
+            # the result is a Python dictionary:
+            print(y["cai"] + ")))")
+         """
+
+        ai1 = "asdf" 
+        """  request.POST['id_comment', None] """
+        print("------------------------------ ***************** ")
+        for key, value in request.POST.items():
+            print('Key1: %s' % (key) ) 
+            print(f'Key2: {key}') #in Python >= 3.7
+            print('Value1 %s' % (value) )
+            print(f'Value2: {value}') #in Python >= 3.7
+
+        if is_ajax(request=request):
+            cmt = "AI response - " + ai1
+            return JsonResponse({"ai_response": cmt}, status=200)
+        else:
+            return JsonResponse({"error": self.form_class.errors}, status=400)
+
+
+
+        #if self.request.is_ajax and self.request.method == "POST":
+            return JsonResponse({"instance": "hello"}, status=200)
+
+            form = self.form_class(self.request.POST)
+            if form.is_valid():
+                instance = form.save()
+                ser_instance = serializers.serialize('json', [ instance, ])
+                    # send to client side.
+                return JsonResponse({"instance": ser_instance}, status=200)
+            else:
+                return JsonResponse({"error": form.errors}, status=400)
+
+        #else    
+            #return JsonResponse({"error": ""}, status=400)
+
+
         self.object = self.get_object()
         return super().post(request, *args, **kwargs)
 
