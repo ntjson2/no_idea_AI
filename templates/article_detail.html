@@ -69,7 +69,7 @@
                 data: d1,
                 success: function(data) {
                     if (!(data['success'])) {
-                        // Here we replace the form, for the
+                        // Repopulate storyline box
                         console.log("ajax return ok");
                         $('#id_comment').val(data['ai_response']);
                        

@@ -10,7 +10,6 @@ from .models import aiw #testing
 
 from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
-""" from jsonview.decorators import json_view """
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -18,18 +17,6 @@ from django.core import serializers
 from django.shortcuts import HttpResponse
 import json
 
-""" @json_view
-def save_example_form(request):
-    form = CommentForm(request.POST or None)
-    if form.is_valid():
-        # You could actually save through AJAX and return a success code here
-        form.save()
-        return {'success': True}
-
-    ctx = {}
-    ctx.update(csrf(request))
-    form_html = render_crispy_form(form, context=ctx)
-    return {'success': False, 'form_html': form_html} """
 
 
 def is_ajax(request):
@@ -53,7 +40,7 @@ class CommentGet(DetailView):
        return context
 
 # Comment post here
-class CommentPost(SingleObjectMixin, FormView): # new
+class CommentPost(SingleObjectMixin, FormView): 
     model = Article
     form_class = CommentForm
     template_name = "article_detail.html"
