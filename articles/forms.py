@@ -13,7 +13,7 @@ class CommentForm(forms.ModelForm):
         self.helper.form_id = 'id-exampleForm'
         self.helper.form_method = 'post'
         # self.helper.form_action = 'submit_survey'
-        self.helper.add_input(Submit('submit', 'Submit'))
+        self.helper.add_input(Submit('submit', 'Save'))
 
     class Meta:
         model = Comment

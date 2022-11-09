@@ -60,59 +60,25 @@ class CommentPost(SingleObjectMixin, FormView): # new
 
     def post(self, request, *args, **kwargs):
 
-        #form = self.form_class(self.request.POST)
+        origComment = request.POST.get('comment', None)
 
-        """   body_unicode = request.body.decode('utf-8')
-        received_json = json.loads(body_unicode)
-        print(received_json) """
+        #Testing key and values
+        """  for key, value in request.POST.items():           
+            print(f'Key2: {key}') #in Python >= 3.7          
+            print(f'Value2: {value}') #in Python >= 3.7 """
 
-        """ print(request.POST.getlist('id_comment')) """
-        """  print(request.POST) """
-
-        print(request.GET.getlist("cai"))
-
-
-        """   y = json.loads(request.POST)
-
-            # the result is a Python dictionary:
-            print(y["cai"] + ")))")
-         """
-
-        ai1 = "asdf" 
-        """  request.POST['id_comment', None] """
-        print("------------------------------ ***************** ")
-        for key, value in request.POST.items():
-            print('Key1: %s' % (key) ) 
-            print(f'Key2: {key}') #in Python >= 3.7
-            print('Value1 %s' % (value) )
-            print(f'Value2: {value}') #in Python >= 3.7
-
+        # Ajax call
         if is_ajax(request=request):
-            cmt = "AI response - " + ai1
-            return JsonResponse({"ai_response": cmt}, status=200)
-        else:
-            return JsonResponse({"error": self.form_class.errors}, status=400)
-
-
-
-        #if self.request.is_ajax and self.request.method == "POST":
-            return JsonResponse({"instance": "hello"}, status=200)
-
+            cmt = "AI response - " + origComment    
             form = self.form_class(self.request.POST)
             if form.is_valid():
-                instance = form.save()
-                ser_instance = serializers.serialize('json', [ instance, ])
-                    # send to client side.
-                return JsonResponse({"instance": ser_instance}, status=200)
+                return JsonResponse({"ai_response": cmt}, status=200)                 
             else:
-                return JsonResponse({"error": form.errors}, status=400)
-
-        #else    
-            #return JsonResponse({"error": ""}, status=400)
-
-
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
+                return JsonResponse({"error": "Please provide a phrase"}, status=400)
+               
+        else:
+            self.object = self.get_object()
+            return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         comment = form.save(commit=False)

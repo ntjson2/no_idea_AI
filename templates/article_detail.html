@@ -18,16 +18,11 @@
 <hr>
 <h4>Add a comment</h4>
 
+{% crispy form %}
 
-<form method="post" id="id-exampleForm">{% csrf_token %}   
-    {{ form|crispy }}      
-    <button id="aibutton" name="aibutton" type="button">Get External Content</button>
-</form>    
-
+<button id="aibutton" name="aibutton" type="button" style="padding: 10px 20px; margin-bottom: 20px;">Generate AI</button>
 
 <script>
-
-
 // using jQuery
     function getCookie(name) {
         var cookieValue = null;
@@ -64,7 +59,6 @@
     
             event.preventDefault();
             var example_form = '#id-exampleForm';
-            window.CSRF_TOKEN = "{{ csrf_token }}";
 
             var d1 = $(example_form).serialize();
             var cm = $('#id_comment').val();
@@ -73,13 +67,10 @@
                 type: "POST",
                 url: "{% url 'article_detail' article.pk %}",          
                 data: d1,
-                csrfmiddlewaretoken: window.CSRF_TOKEN,
-                cai: cm,
                 success: function(data) {
                     if (!(data['success'])) {
                         // Here we replace the form, for the
                         console.log("ajax return ok");
-                        $(example_form).replaceWith(data['form_html']);
                         $('#id_comment').val(data['ai_response']);
                        
                     }else {
@@ -95,10 +86,6 @@
         });
     });
     </script>
-
-<!-- {% crispy form %} -->
-
-
 
 
 <p><a href="{% url 'article_edit' article.pk %}">Edit</a> |
