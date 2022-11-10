@@ -38,7 +38,7 @@ class Comment(models.Model): # new
         return reverse("article_list")
 
 
-class aiw(models.Model):
+class aiw:
    def __init__(self):
       self.val=1      
       openai.api_key = os.getenv("OPENAI_API_KEY")
