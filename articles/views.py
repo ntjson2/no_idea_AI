@@ -80,7 +80,6 @@ class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return obj.author == self.request.user
 
 
-
 class ArticleCreateView(LoginRequiredMixin, CreateView):  
     model = Article
     template_name = "article_new.html"
