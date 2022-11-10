@@ -6,9 +6,23 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse # new
 from .forms import CommentForm
 from .models import Article
-
 from .models import aiw #testing
 
+from django.template.context_processors import csrf
+from crispy_forms.utils import render_crispy_form
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.core import serializers
+from django.shortcuts import HttpResponse
+import json
+import random
+
+
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 class ArticleListView(LoginRequiredMixin, ListView):
     model = Article    
@@ -18,6 +32,7 @@ class ArticleListView(LoginRequiredMixin, ListView):
 class CommentGet(DetailView):
     model = Article
     template_name = "article_detail.html"
+  
 
     def get_context_data(self, **kwargs):
        # Call the base implementation first to get a context
@@ -26,14 +41,42 @@ class CommentGet(DetailView):
        context['form'] = CommentForm()
        return context
 
-class CommentPost(SingleObjectMixin, FormView): # new
+# Comment post here
+class CommentPost(SingleObjectMixin, FormView): 
     model = Article
     form_class = CommentForm
     template_name = "article_detail.html"
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
+
+        origComment = request.POST.get('comment', None)
+
+        #Testing key and values
+        """  for key, value in request.POST.items():           
+            print(f'Key2: {key}') #in Python >= 3.7          
+            print(f'Value2: {value}') #in Python >= 3.7 """
+
+        # Ajax call
+        if is_ajax(request=request):
+            form = self.form_class(self.request.POST)
+            if form.is_valid():
+
+                # Fake AI - ready for the real stuff
+                cmt = origComment + " " + random.choice(['- so said the bear who had a problem with pizza.',
+                'and big tree thinks about this too.',
+                'or crabs a night with your favorite slippers.', 
+                'and other stuff not worth mentioning.', 
+                '- like for real.', 
+                'but not really, it is just a mess.',
+                ' - said the big grumpy chicken.'])
+
+                return JsonResponse({"ai_response": cmt}, status=200)                 
+            else:
+                return JsonResponse({"error": "Please provide a phrase"}, status=400)
+               
+        else:
+            self.object = self.get_object()
+            return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         comment = form.save(commit=False)
