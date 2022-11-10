@@ -20,6 +20,10 @@ Alex, Luke, Haydon and Nathans AI
 
 Should be good to run. I'm also sharing .env to make things easier.
 
-# Branch - nathan
-- Installation of django-jsonview (for crispy AJAX)
-`>>>pip install django-jsonview`
+# Ajax config
+- jQuery is called at the head level of base.html
+- Within article_detail, we are checking for csrf safety with jQuery ajax with the 3 functions above 'aibutton' click handler
+- Todo 
+  - Error handling for ajax calls that are empty, to long, etc.
+  - AI Button needs better styling (not attribute level)
+  - CRUD logic hooked up to ajax functionality
