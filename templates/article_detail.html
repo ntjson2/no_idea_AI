@@ -10,17 +10,17 @@
 </div>
 
 <hr>
-<h4>Comments</h4>
+<h4>Storylines</h4>
 {% for comment in article.comment_set.all %}
-<p>{{ comment.author }} &middot; {{ comment }}</p>
+<p><!-- {{ comment.author }} &middot; --> {{ comment }}</p>
 {% endfor %}
 
 <hr>
-<h4>Add a comment</h4>
+<h4>Add a Storyline</h4>
 
 {% crispy form %}
 
-<button id="aibutton" name="aibutton" type="button" style="padding: 10px 20px; margin-bottom: 20px;">Generate AI</button>
+<button id="aibutton" name="aibutton" type="button" style="padding: 10px 20px; margin-bottom: 20px;">Generate AI Storyline</button>
 
 <script>
 // using jQuery

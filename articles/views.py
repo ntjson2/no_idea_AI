@@ -16,6 +16,8 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.shortcuts import HttpResponse
 import json
+import random
+
 
 
 
@@ -56,9 +58,18 @@ class CommentPost(SingleObjectMixin, FormView):
 
         # Ajax call
         if is_ajax(request=request):
-            cmt = "AI response - " + origComment    
             form = self.form_class(self.request.POST)
             if form.is_valid():
+
+                # Fake AI - ready for the real stuff
+                cmt = origComment + " " + random.choice(['- so said the bear who had a problem with pizza.',
+                'and big tree thinks about this too.',
+                'or crabs a night with your favorite slippers.', 
+                'and other stuff not worth mentioning.', 
+                '- like for real.', 
+                'but not really, it is just a mess.',
+                ' - said the big grumpy chicken.'])
+
                 return JsonResponse({"ai_response": cmt}, status=200)                 
             else:
                 return JsonResponse({"error": "Please provide a phrase"}, status=400)
