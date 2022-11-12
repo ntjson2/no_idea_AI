@@ -2,13 +2,19 @@ from dalle2 import Dalle2
 import os
 
 class Dalle():
-    def __init__(self, prompt):
-        self.prompt = prompt
-        self.dalle = Dalle2(os.getenv("DALLE2KEY"))
-        self.generations = self.dalle.generate("portal to another dimension, digital art")
+    def __init__(self):
+        self.d = Dalle2("sess-zBareHPb14XZC1RgybLnfXK1udlhV9P2ryS3vZxS")
 
-    def get_single_image_path(self):
-        return self.generations[0].get("generation").get("image_path")
+    def get_single_image_path(self, prompt):
+        d = self.d
+        g = d.generate(str(prompt))
 
-    def __str__(self):
-        return f"{self.get_single_image_path}"
+        return g[0].get("generation").get("image_path")
+
+def main():
+    d = Dalle()
+    r = d.get_single_image_path("Giant taco on a mountain.")
+    print(r)
+
+if __name__ == "__main__":
+    main()
