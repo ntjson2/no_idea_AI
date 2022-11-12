@@ -1,15 +1,14 @@
 from dalle2 import Dalle2
+import os
 
-dalle = Dalle2("sess-zBareHPb14XZC1RgybLnfXK1udlhV9P2ryS3vZxS")
+class Dalle():
+    def __init__(self, prompt):
+        self.prompt = prompt
+        self.dalle = Dalle2(os.getenv("DALLE2KEY"))
+        self.generations = self.dalle.generate("portal to another dimension, digital art")
 
-generations = dalle.generate("portal to another dimension, digital art")
+    def get_single_image_path(self):
+        return self.generations[0].get("generation").get("image_path")
 
-# NOTE: Generates 4 images accessed by generations[0] through generations[3]
-print(generations[0].get("generation").get("image_path"))
-
-gen_url = []
-for i in range(0, 4):
-    gen_url.append(generations[i].get("generation").get("image_path"))
-
-for i in gen_url:
-    print(i)
+    def __str__(self):
+        return f"{self.get_single_image_path}"
