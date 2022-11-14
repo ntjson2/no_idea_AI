@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+import os
 
 import openai
 #from api_secrets import OPENAI_API_KEY

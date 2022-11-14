@@ -22,8 +22,6 @@ import os
 import openai
 
 
-
-
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
@@ -139,7 +137,6 @@ class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self): # new
         obj = self.get_object()
         return obj.author == self.request.user
-
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):  
