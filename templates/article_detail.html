@@ -71,7 +71,9 @@
                     if (!(data['success'])) {
                         // Repopulate storyline box
                         console.log("ajax return ok");
-                        $('#id_comment').val(data['ai_response']);
+                        airesponse0 = cm + " " + data.ai_response.choices[0].text;
+                        // Concatenate the original comment with the AI completion
+                        $('#id_comment').val(airesponse0);
                        
                     }else {
                         // Here you can show the user a success message or do whatever you need

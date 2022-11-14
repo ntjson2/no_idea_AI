@@ -18,6 +18,9 @@ from django.shortcuts import HttpResponse
 import json
 import random
 
+import os
+import openai
+
 
 
 
@@ -49,7 +52,7 @@ class CommentPost(SingleObjectMixin, FormView):
 
     def post(self, request, *args, **kwargs):
 
-        origComment = request.POST.get('comment', None)
+        origComment = request.POST.get('comment', None) + " "
 
         #Testing key and values
         """  for key, value in request.POST.items():           
@@ -61,16 +64,31 @@ class CommentPost(SingleObjectMixin, FormView):
             form = self.form_class(self.request.POST)
             if form.is_valid():
 
-                # Fake AI - ready for the real stuff
+                """   # Fake AI - ready for the real stuff
                 cmt = origComment + " " + random.choice(['- so said the bear who had a problem with pizza.',
                 'and big tree thinks about this too.',
                 'or crabs a night with your favorite slippers.', 
                 'and other stuff not worth mentioning.', 
                 '- like for real.', 
                 'but not really, it is just a mess.',
-                ' - said the big grumpy chicken.'])
+                ' - said the big grumpy chicken.']) 
+                """
 
-                return JsonResponse({"ai_response": cmt}, status=200)                 
+                # Real AI
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+
+                response = openai.Completion.create(
+                    model="text-davinci-002",
+                    prompt=origComment,
+                    temperature=0.5,
+                    max_tokens=250,
+                    top_p=0.48, 
+                    frequency_penalty=0.96,
+                    presence_penalty=1.01
+                )
+                # print(response)
+
+                return JsonResponse({"ai_response": response}, status=200)                 
             else:
                 return JsonResponse({"error": "Please provide a phrase"}, status=400)
                
