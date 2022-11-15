@@ -12,7 +12,7 @@ from pathlib import Path
 class Dalle2():
     def __init__(self, bearer):
         self.bearer = bearer
-        self.batch_size = 4
+        self.batch_size = 1
         self.inpainting_batch_size = 3
         self.task_sleep_seconds = 3
 
