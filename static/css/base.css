@@ -1,0 +1,31 @@
+:root {
+    --dark-purple: #1B1E53;
+    --mid-purple: #711971;
+    --text-purple: #E0C7FA;
+    --head-fade-1: #6ae444;
+    --head-fade-2: #00ff9d;
+    --head-fade-3: #00ffaa;
+}
+
+.head {
+    background: linear-gradient(to right, var(--head-fade-1), var(--head-fade-2), var(--head-fade-3));
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom: 2px solid var(--dark-purple);
+}
+
+.c{
+    padding: 0;
+    margin: 0;
+}
+
+.head-text {
+    color: var(--dark-purple);
+}
+
+.nav-logo {
+    border-radius: 10px;
+}
+
+/* Need to find a way to change text colors  */
