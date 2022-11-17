@@ -3,7 +3,7 @@ import os
 
 class Dalle():
     def __init__(self):
-        self.d = Dalle2("sess-zBareHPb14XZC1RgybLnfXK1udlhV9P2ryS3vZxS")
+        self.d = Dalle2(os.getenv("DALLE2KEY"))
 
     def get_single_image_path(self, prompt):
         d = self.d
