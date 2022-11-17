@@ -82,16 +82,19 @@ class CommentPost(SingleObjectMixin, FormView):
                 return JsonResponse({"error": "Please provide a phrase"}, status=400)
                
         else:
-
-            d = Dalle()
-            urls = d.get_single_image_path(origComment)
-            self.object = self.get_object()
-            return super().post(request, *args, **kwargs)
+            form = self.form_class(self.request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                self.object = self.get_object()
+                comment.article = self.object
+                d = Dalle()
+                comment.urls = d.get_single_image_path(origComment)
+                comment.save()
+                return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         comment = form.save(commit=False)
         comment.article = self.object
-        comment.save()
         return super().form_valid(form)
 
     def get_success_url(self):
