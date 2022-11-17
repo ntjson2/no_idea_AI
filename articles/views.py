@@ -70,7 +70,7 @@ class CommentPost(SingleObjectMixin, FormView):
                     model="text-davinci-002",
                     prompt="Continue story: " + origComment,
                     temperature=0.5,
-                    max_tokens=1000,
+                    max_tokens=50, # Changed to be lower for testing
                     top_p=0.48, 
                     frequency_penalty=0.96,
                     presence_penalty=1.01
@@ -84,7 +84,7 @@ class CommentPost(SingleObjectMixin, FormView):
         else:
 
             d = Dalle()
-            r = d.get_single_image_path(origComment)
+            urls = d.get_single_image_path(origComment)
             self.object = self.get_object()
             return super().post(request, *args, **kwargs)
 
