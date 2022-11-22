@@ -79,7 +79,7 @@ class CommentPost(SingleObjectMixin, FormView):
 
                 return JsonResponse({"ai_response": response}, status=200)                 
             else:
-                return JsonResponse({"error": "Please provide a phrase"}, status=400)
+                return JsonResponse({"error": "Please provide a phrase"}, status=500)
                
         else:
             form = self.form_class(self.request.POST)

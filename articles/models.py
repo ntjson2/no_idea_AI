@@ -25,7 +25,7 @@ class Article(models.Model):
 
 class Comment(models.Model): # new
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=140)
+    comment = models.TextField(max_length=500)
     urls = models.CharField(max_length=1000)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
