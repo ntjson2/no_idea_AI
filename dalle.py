@@ -9,9 +9,11 @@ class Dalle():
         d = self.d
         g = d.generate(str(prompt))
 
-        print(f"> length of list: {len(g)}")
-
-        return g[0].get("generation").get("image_path")
+        try:
+            return g[0].get("generation").get("image_path")
+        except:
+            print(f"Generating image has failed.\nReason: {g[0]}\nStatus Code: {g[1]}\nRetrying...")
+            self.get_single_image_path(prompt)
 
 
 def main():
