@@ -13,11 +13,11 @@ class Dalle():
 
         return g[0].get("generation").get("image_path")
 
+
 def main():
     d = Dalle()
     r = d.get_single_image_path("Giant taco on a mountain.")
     print(r)
-
 
 
 if __name__ == "__main__":
