@@ -6,12 +6,16 @@ class Dalle():
         self.d = Dalle2(os.getenv("DALLE2KEY"))
 
     def get_single_image_path(self, prompt):
-        d = self.d
-        g = d.generate(str(prompt))
+        return "https://placeholder.pics/svg/300"
+        # d = self.d
+        # g = d.generate(str(prompt))
 
-        print(f"> length of list: {len(g)}")
-
-        return g[0].get("generation").get("image_path")
+        # try:
+        #     print(g[0].get("generation").get("image_path"))
+        #     return g[0].get("generation").get("image_path")
+        # except:
+        #     print(f"Generating image has failed.\nReason: {g[0]}\nStatus Code: {g[1]}\nRetrying...")
+        #     return self.get_single_image_path(prompt)
 
 
 def main():
