@@ -41,7 +41,7 @@ class Comment(models.Model): # new
 
 class aiw:
    def __init__(self):
-      self.val=1      
+      self.val=1
       openai.api_key = os.getenv("OPENAI_API_KEY")
       openai.Model.list()
       self.prompt = "hello worlds"
