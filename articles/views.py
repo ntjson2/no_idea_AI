@@ -141,6 +141,12 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     template_name = "article_new.html"
     fields = ("title", "body")
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].label = "Story Name"
+        form.fields['body'].label = "Story Description"
+        return form
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
