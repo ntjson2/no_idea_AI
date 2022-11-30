@@ -35,13 +35,14 @@ class CommentGet(DetailView):
     model = Article
     template_name = "article_detail.html"
   
-
     def get_context_data(self, **kwargs):
-       # Call the base implementation first to get a context
-       context = super().get_context_data(**kwargs)
-       #context.update({'phrase': 'yaabb'}) #AI testing
-       context['form'] = CommentForm()
-       return context
+        context = super().get_context_data(**kwargs)
+        print("attempting get ---------------->")
+        print(self.request.GET)
+        # print(self.request.GET.get)
+        print(kwargs)
+        context['form'] = CommentForm()
+        return context 
 
 # Comment post here
 class CommentPost(SingleObjectMixin, FormView): 
@@ -110,7 +111,7 @@ class ArticleDetailView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         view = CommentPost.as_view()
         return view(request, *args, **kwargs)
-
+ 
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
