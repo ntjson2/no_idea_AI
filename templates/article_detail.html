@@ -115,7 +115,7 @@
             $.ajax({
                 type: "GET",
                 url: "{% url 'article_detail' article.pk %}",          
-                data: storyLineID,               
+                data: {"storyLineID": storyLineID},               
                 success: function(data) {
                     if (!(data['success'])) {
                         // Repopulate storyline box

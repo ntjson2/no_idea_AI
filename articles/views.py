@@ -37,10 +37,17 @@ class CommentGet(DetailView):
   
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print("attempting get ---------------->")
-        print(self.request.GET)
-        # print(self.request.GET.get)
-        print(kwargs)
+        
+        #print("attempting get ---------------->")
+        #print(self.request.GET.get('storyLineID',None))
+
+        #cpkid= self.request.GET.get('storyLineID',None)
+        #cmDelete = self.model.objects.get(pk=cpkid)
+        
+        #>>> b = Blog.objects.get(pk=1)        
+        ## Delete all the entries belonging to this Blog.
+        #>>> Entry.objects.filter(blog=b).delete()
+
         context['form'] = CommentForm()
         return context 
 
