@@ -38,9 +38,7 @@ class CommentGet(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        #print("attempting get ---------------->")
-        #print(self.request.GET.get('storyLineID',None))
-
+       
         #cpkid= self.request.GET.get('storyLineID',None)
         #cmDelete = self.model.objects.get(pk=cpkid)
         
@@ -69,6 +67,28 @@ class CommentPost(SingleObjectMixin, FormView):
         # Ajax call
         if is_ajax(request=request):
             form = self.form_class(self.request.POST)
+
+            print("attempting get storyLineID -------------->")
+            print(request.POST.get('storyLineID',None))
+            storyID = request.POST.get('storyLineID',None)
+            if storyID != 'None':
+                # have storyLineID passed, let's start the delete process
+                print("IN DELETE------------>")    
+                pass
+                #article = self.get_object()
+                #return reverse("article_detail", kwargs={"pk": article.pk})
+                #context = super().get_context_data(**kwargs)
+                #context['form'] = CommentForm()
+                #return context 
+                
+                """ 
+                comment = form.save(commit=False)
+                self.object = self.get_object()
+                comment.article = self.object           
+                return super().post(request, *args, **kwargs)
+                """
+
+
             if form.is_valid():
 
                 # Real AI
@@ -92,6 +112,7 @@ class CommentPost(SingleObjectMixin, FormView):
         else:
             form = self.form_class(self.request.POST)
             if form.is_valid():
+                
                 comment = form.save(commit=False)
                 self.object = self.get_object()
                 comment.article = self.object

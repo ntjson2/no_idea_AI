@@ -74,7 +74,7 @@
     
             event.preventDefault();
             var example_form = '#id-exampleForm';
-
+            $("input[name='storyLineID']").val('None');
             var d1 = $(example_form).serialize();
             var cm = $('#id_comment').val();
           
@@ -108,19 +108,19 @@
             event.preventDefault();
             var example_form = '#id-exampleForm';
 
+            $("input[name='storyLineID']").val(storyLineID);
             var d1 = $(example_form).serialize();
             var cm = $('#id_comment').val();
-            //var delData = storyLineID;
         
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "{% url 'article_detail' article.pk %}",          
-                data: {"storyLineID": storyLineID},               
+                data: d1,           
                 success: function(data) {
                     if (!(data['success'])) {
                         // Repopulate storyline box
                         console.log("ajax return ok");
-                        // airesponse0 = cm + " " + data.ai_response.choices[0].text;
+                        airesponse0 = cm + " " + data.ai_response.choices[0].text;
                         // Concatenate the original comment with the AI completion
                         $('#id_comment').val(airesponse0);
                     
