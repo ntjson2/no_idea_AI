@@ -78,13 +78,13 @@ class Dalle2():
 
             if not response.ok:
                 print(f"Request failed with status: {response.status_code}, data: {response.json()}")
-                return None
+                return ["timeout", response.status_code]
             if data["status"] == "failed":
                 print(f"Task failed: {data['status_information']}")
-                return None
+                return ["failed", "None"]
             if data["status"] == "rejected":
                 print(f"Task rejected: {data['status_information']}")
-                return None
+                return ["rejected", "None"]
             if data["status"] == "succeeded":
                 print("🙌 Task completed!")
                 return data["generations"]["data"]
