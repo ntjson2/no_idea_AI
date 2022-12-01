@@ -13,7 +13,7 @@
 <hr>
 <h4>Storylines</h4>
 {% for comment in article.comment_set.all %}
-<div class="storyLineControls"><button class="btnCtrls">Delete</button></div>
+<div class="storyLineControls"><button class="btnCtrls" onclick="delClick({{ comment.id }})">Delete</button></div>
 <div style="background-color: #ececec;">
     {% cycle 'imgRight' 'imgLeft' as imgClassRotate silent %}
     <div class="{{ imgClassRotate }}">
@@ -33,7 +33,9 @@
     {% crispy form %}
 
     <button id="aibutton" name="aibutton" type="button" style="padding: 10px 20px; margin-bottom: 20px;">Generate AI Storyline</button>
-    </div>
+   
+
+</div>
 <script>
 // using jQuery
     function getCookie(name) {
@@ -67,11 +69,12 @@
     });
     
     $(document).ready(function(){
+
       $("#aibutton").click(function(){
     
             event.preventDefault();
             var example_form = '#id-exampleForm';
-
+            $("input[name='storyLineID']").val('None');
             var d1 = $(example_form).serialize();
             var cm = $('#id_comment').val();
           
@@ -80,7 +83,8 @@
                 url: "{% url 'article_detail' article.pk %}",          
                 data: d1,
                 success: function(data) {
-                    if (!(data['success'])) {
+                    if (!(data['isError'])) {
+                        // No error, all good
                         // Repopulate storyline box
                         console.log("ajax return ok");
                         airesponse0 = cm + " " + data.ai_response.choices[0].text;
@@ -99,6 +103,38 @@
             });
         });
     });
+
+    function delClick(storyLineID){            
+            event.preventDefault();
+            var example_form = '#id-exampleForm';
+            // Get Storyline ID
+            $("input[name='storyLineID']").val(storyLineID);
+            // Dummy comment and Author to get view running here.
+            // Todo: upgrade this hack for version 2
+            $('#id_comment').val('Enter text');
+            $("#id_author").val("1").change();
+
+            var d1 = $(example_form).serialize();
+            var cm = $('#id_comment').val();
+        
+            $.ajax({
+                type: "POST",
+                url: "{% url 'article_detail' article.pk %}",          
+                data: d1,           
+                success: function(data) {
+                    if (!(data['isError'])) {
+                       
+                        // console.log("OK");
+                        // Reload page - TODO fix this for V2, we really want to do this from the view
+                        location.reload();                                     
+                    }
+                },
+                error: function () {
+                    $(example_form).find('.error-message').show()
+                }
+            });
+        }
+
     </script>
 
 

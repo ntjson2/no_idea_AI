@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse # new
 from .forms import CommentForm
 from .models import Article
+from .models import Comment
 from .models import aiw #testing
 
 from django.template.context_processors import csrf
@@ -35,13 +36,19 @@ class CommentGet(DetailView):
     model = Article
     template_name = "article_detail.html"
   
-
     def get_context_data(self, **kwargs):
-       # Call the base implementation first to get a context
-       context = super().get_context_data(**kwargs)
-       #context.update({'phrase': 'yaabb'}) #AI testing
-       context['form'] = CommentForm()
-       return context
+        context = super().get_context_data(**kwargs)
+        
+       
+        #cpkid= self.request.GET.get('storyLineID',None)
+        #cmDelete = self.model.objects.get(pk=cpkid)
+        
+        #>>> b = Blog.objects.get(pk=1)        
+        ## Delete all the entries belonging to this Blog.
+        #>>> Entry.objects.filter(blog=b).delete()
+
+        context['form'] = CommentForm()
+        return context 
 
 # Comment post here
 class CommentPost(SingleObjectMixin, FormView): 
@@ -57,10 +64,21 @@ class CommentPost(SingleObjectMixin, FormView):
         """  for key, value in request.POST.items():           
             print(f'Key2: {key}') #in Python >= 3.7          
             print(f'Value2: {value}') #in Python >= 3.7 """
+
+        form = self.form_class(self.request.POST) 
       
         # Ajax call
         if is_ajax(request=request):
-            form = self.form_class(self.request.POST)
+
+            # Delete Storyline Request from Button to Ajax - delClick()
+            storyID = request.POST.get('storyLineID',None)
+            if storyID != 'None':
+                print(request.POST.get('storyLineID',None))
+                Comment.objects.get(pk=storyID).delete()
+                return JsonResponse({"delete_response": "deleted"}, status=200)                                 
+                    
+              
+            # Post for AI service ------------------------
             if form.is_valid():
 
                 # Real AI
@@ -84,6 +102,7 @@ class CommentPost(SingleObjectMixin, FormView):
         else:
             form = self.form_class(self.request.POST)
             if form.is_valid():
+                
                 comment = form.save(commit=False)
                 self.object = self.get_object()
                 comment.article = self.object
@@ -110,7 +129,7 @@ class ArticleDetailView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         view = CommentPost.as_view()
         return view(request, *args, **kwargs)
-
+ 
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
