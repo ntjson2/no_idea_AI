@@ -1,17 +1,18 @@
 :root {
-    --dark-purple: #1B1E53;
-    --mid-purple: #711971;
-    --text-purple: #E0C7FA;
-    --head-fade-1: #6ae444;
-    --head-fade-2: #00ff9d;
-    --head-fade-3: #00ffaa;
+    --head-text: rgba(255, 255, 255, 0.945);
+    --head-fade-1: #C60BF4;
+    --head-fade-2: #F40BAE;
+    --head-fade-3: #510BF4;
+    --bg-primary-1: #10101f;
+    --bg-primary-2: #1f1f3b;
+    --bg-primary-3: #353563;
 }
 
 .head {
     background: linear-gradient(to right, var(--head-fade-1), var(--head-fade-2), var(--head-fade-3));
     width: 100%;
     margin: 0;
-    border-bottom: 2px solid var(--dark-purple);
+    border-bottom: 2px solid var(--head-text);
     padding: .5em 0 .5em 0;
     position: fixed;
     top: 0;
@@ -25,16 +26,8 @@
     width: 90%;
 }
 
-.head-text {
-    color: var(--dark-purple);
-}
-
 .nav-logo {
     border-radius: 10px;
-}
-
-.head-button {
-    color: red;
 }
 
 .spacer {
@@ -44,6 +37,31 @@
   padding: 0;
 }
 
+.url {
+  text-decoration: none;
+  color: var(--head-text);
+  font-weight: 500;
+  size: 1.5em;
+}
+
+.name {
+  font-weight: 750;
+  size: 2.5em;
+}
+
+.fartground {
+  background: var(--bg-primary-1);
+}
+
+body {
+  color: rgb(207, 207, 207);
+}
+
+a {
+  color: rgb(233, 47, 192);
+  font-weight: 600;
+  text-decoration: solid;
+}
 
 
 /* fancy button stuff */
@@ -76,12 +94,11 @@ p.wrap1 {
 }
 
 .btnCtrls {
-  opacity: .2;
   width: 100px;
-  height: 2px;      
+  height: 4px;      
   border: none;
-  background: #d20000;
-  color: #6f0202;
+  background: #ff0000;
+  color: #ff0000;
   font-size: .01px;
   font-weight: .01;  
   transition: transform 250ms, opacity 400ms;     
@@ -95,7 +112,7 @@ p.wrap1 {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   border: none;
-  background: #602b71;
+  background: #ff0000;
   color: white;
   font-size: 1em;
   font-weight: 500;

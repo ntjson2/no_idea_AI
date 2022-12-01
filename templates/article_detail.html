@@ -5,16 +5,16 @@
 {% block content %}
 <div class="article-entry">
     <h2>{{ object.title }}</h2>
-    <p>by {{ object.author }} | {{ object.date }}</p>
+    <p>By {{ object.author }} | {{ object.date }}</p>
     <p>{{ object.body }}</p>
 </div>
 <hr>
-<p><strong>Generated images may only be visible for a certain period of time after generation. Please download any images you wish to keep.</strong></p>
+<p style="color: #cfc52e;"><strong>WARNING: Generated images will only be visible for several hours after the time after generation. Consider downloading images you wish to save.</strong></p>
 <hr>
 <h4>Storylines</h4>
 {% for comment in article.comment_set.all %}
-<div class="storyLineControls"><button class="btnCtrls" onclick="delClick({{ comment.id }})">Delete</button></div>
-<div style="background-color: #ececec;">
+<div class="storyLineControls"><button class="btnCtrls" onclick="delClick( {{ comment.id }} )">Delete</button></div>
+<div style="background-color: var(--bg-primary-2);">
     {% cycle 'imgRight' 'imgLeft' as imgClassRotate silent %}
     <div class="{{ imgClassRotate }}">
         <a href="{{ comment.urls }}" target="_blank">
