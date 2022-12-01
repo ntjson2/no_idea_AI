@@ -83,7 +83,8 @@
                 url: "{% url 'article_detail' article.pk %}",          
                 data: d1,
                 success: function(data) {
-                    if (!(data['success'])) {
+                    if (!(data['isError'])) {
+                        // No error, all good
                         // Repopulate storyline box
                         console.log("ajax return ok");
                         airesponse0 = cm + " " + data.ai_response.choices[0].text;
@@ -103,12 +104,16 @@
         });
     });
 
-    function delClick(storyLineID){
-            
+    function delClick(storyLineID){            
             event.preventDefault();
             var example_form = '#id-exampleForm';
-
+            // Get Storyline ID
             $("input[name='storyLineID']").val(storyLineID);
+            // Dummy comment and Author to get view running here.
+            // Todo: upgrade this hack for version 2
+            $('#id_comment').val('Enter text');
+            $("#id_author").val("1").change();
+
             var d1 = $(example_form).serialize();
             var cm = $('#id_comment').val();
         
@@ -117,17 +122,11 @@
                 url: "{% url 'article_detail' article.pk %}",          
                 data: d1,           
                 success: function(data) {
-                    if (!(data['success'])) {
-                        // Repopulate storyline box
-                        console.log("ajax return ok");
-                        airesponse0 = cm + " " + data.ai_response.choices[0].text;
-                        // Concatenate the original comment with the AI completion
-                        $('#id_comment').val(airesponse0);
-                    
-                    }else {
-                        // Here you can show the user a success message or do whatever you need
-                        console.log("not ok");
-                        $(example_form).find('.success-message').show();                  
+                    if (!(data['isError'])) {
+                       
+                        // console.log("OK");
+                        // Reload page - TODO fix this for V2, we really want to do this from the view
+                        location.reload();                                     
                     }
                 },
                 error: function () {
