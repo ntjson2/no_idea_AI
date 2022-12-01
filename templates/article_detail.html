@@ -70,8 +70,17 @@
     
     $(document).ready(function(){
 
+      // Save/Submit button
+      $("#submit-id-submit").click(function(){
+        switchThrobber(true, "Matching Photo and Saving", 500);
+      });
+        
+      // Generate AI text
       $("#aibutton").click(function(){
-    
+            
+            // Fire up the "throbber" while AI text loads
+            switchThrobber(true, "Squeezing AI Juice", 500);
+
             event.preventDefault();
             var example_form = '#id-exampleForm';
             $("input[name='storyLineID']").val('None');
@@ -83,18 +92,16 @@
                 url: "{% url 'article_detail' article.pk %}",          
                 data: d1,
                 success: function(data) {
-                    if (!(data['isError'])) {
-                        // No error, all good
+                    if (!(data['isError'])) { // No error, all good
                         // Repopulate storyline box
-                        console.log("ajax return ok");
+                        switchThrobber(false, null, 200);
                         airesponse0 = cm + " " + data.ai_response.choices[0].text;
                         // Concatenate the original comment with the AI completion
                         $('#id_comment').val(airesponse0);
-                       
                     }else {
-                        // Here you can show the user a success message or do whatever you need
-                        console.log("not ok");
-                        $(example_form).find('.success-message').show();                  
+                        // TODO - set this error handling up
+                        console.log("not ok - ERROR");
+                        // $(example_form).find('.success-message').show();                  
                     }
                 },
                 error: function () {
@@ -107,6 +114,10 @@
     function delClick(storyLineID){            
             event.preventDefault();
             var example_form = '#id-exampleForm';
+
+            // Are you sure you want to delete this storyline?
+            // TODO - stub
+
             // Get Storyline ID
             $("input[name='storyLineID']").val(storyLineID);
             // Dummy comment and Author to get view running here.
@@ -122,33 +133,33 @@
                 url: "{% url 'article_detail' article.pk %}",          
                 data: d1,           
                 success: function(data) {
-                    if (!(data['isError'])) {
-                       
-                        // console.log("OK");
+                    if (!(data['isError'])) {                       
                         // Reload page - TODO fix this for V2, we really want to do this from the view
                         location.reload();                                     
                     }
                 },
                 error: function () {
+                    // TODO - set this error handling up
                     $(example_form).find('.error-message').show()
                 }
             });
         }
 
+        function switchThrobber(isloading, msg, speed){
+
+            if ( isloading === true ) {
+                $("#loadingDiv").show(speed);
+                $("#loadingText").text(msg);
                 
-        $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+            } else if ( isloading === false ) {
+                $( "#loadingDiv" ).hide(speed);
+            }
+        }   
+                
 
         $(window).on('load', function(){
-            setTimeout(removeLoader, 2000); //wait for page load PLUS two seconds.
-        });
-
-        function removeLoader(){
-            $( "#loadingDiv" ).fadeOut(500, function() {
-            // fadeOut complete. Remove the loading div
-            $( "#loadingDiv" ).remove(); //makes page more lightweight 
-            });  
-        }
-       
+            switchThrobber(false, null, 0);
+        }); 
 
     </script>
 
@@ -156,4 +167,9 @@
 <p><a href="{% url 'article_edit' article.pk %}">Edit</a> |
 <a href="{% url 'article_delete' article.pk %}">Delete</a></p>
 <p>Back to <a href="{% url 'article_list' %}">All Stories</a>.</p>
+<div id="loadingDiv"><div class="loader"></div>
+<h1 id="loadingText">Generating AI Prompt<br>...</h1>
+</div>
+
+
 {% endblock content %}
