@@ -13,11 +13,15 @@
     margin-left: 0;
     margin-right: 0;
     border-bottom: 2px solid var(--dark-purple);
+    padding: .5em 0 .5em 0;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .c{
     padding: 0;
-    margin: 0 auto 0 auto;
+    margin: 5em auto 0 auto;
     width: 90%;
 }
 
@@ -29,7 +33,14 @@
     border-radius: 10px;
 }
 
-/* Need to find a way to change text colors  */
+.head-button {
+    color: red;
+}
+
+.spacer {
+  width: 100%;
+  height: 3em;
+}
 
 
 
