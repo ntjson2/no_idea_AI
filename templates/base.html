@@ -16,7 +16,7 @@
 </head>
 <body>
   <header class="head" id="base-header">
-    <div class="container" style="margin: 0;">
+    <div class="container" style="margin-top: 0;">
       <div class="d-flex flex-wrap align-items-center justify-content-center
         justify-content-lg-start">
         <a class="navbar-brand" href="{% url 'home' %}">
@@ -69,8 +69,11 @@
     window.addEventListener('resize', function(){
       var header = document.querySelector("#base-header");
       var headerHeight = header.offsetHeight;
-      document.getElementById("spacer").style.height = headerHeight
+      document.getElementById("spacer").style.height = headerHeight + 5 + "px"
+      console.log(headerHeight)
     }, true);
+
+    document.rea
   </script>
 </body>
 </html>
