@@ -70,10 +70,13 @@
       var header = document.querySelector("#base-header");
       var headerHeight = header.offsetHeight;
       document.getElementById("spacer").style.height = headerHeight + 5 + "px"
-      console.log(headerHeight)
     }, true);
 
-    document.rea
+    $( document ).ready(function(){
+      var header = document.querySelector("#base-header");
+      var headerHeight = header.offsetHeight;
+      document.getElementById("spacer").style.height = headerHeight + 5 + "px"
+    })
   </script>
 </body>
 </html>
