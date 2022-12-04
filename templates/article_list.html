@@ -3,23 +3,22 @@
 {% block content %}
 {% for article in article_list %}
 <div class="card">
-    <div class="card-header">
-        <span class="font-weight-bold"><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></span> &middot;
+    <div class="card-header" style="background-color: var(--bg-primary-2);">
+        <h3 class="font-weight-bold"><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h3>
         <span class="text-muted">by {{ article.author }} |
         {{ article.date }}</span>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="background-color: var(--bg-primary-3);">
         <!-- Changes start here! -->
+        <h4>&middot; Description</h4>
         <p>{{ article.body }}</p>
         <a href="{% url 'article_edit' article.pk %}">Edit</a> |
         <a href="{% url 'article_delete' article.pk %}">Delete</a>
     </div>
-    <div class="card-footer">
+    <div class="card-footer" style="background-color: var(--bg-primary-2);">
+        <h3>&middot; Story</h3>
         {% for comment in article.comment_set.all %}
-        <p>
-        <span class="font-weight-bold">
-        {{ comment.author }} &middot;
-        </span>
+        -
         {{ comment }}
         </p>
         {% endfor %}
