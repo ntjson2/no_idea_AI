@@ -111,9 +111,29 @@
         });
     });
 
+     // Dialog fun -------------------------------------
+       
+     $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Delete Storyline": function() {
+                $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                $( this ).dialog( "close" );
+                }
+            }
+        });
+    $( "#dialog-confirm" ).dialog( "close" );
+
     function delClick(storyLineID){            
             event.preventDefault();
             var example_form = '#id-exampleForm';
+
+            $( "#dialog-confirm" ).dialog( "open" );
 
             // Are you sure you want to delete this storyline?
             // TODO - stub
@@ -159,7 +179,11 @@
 
         $(window).on('load', function(){
             switchThrobber(false, null, 0);
+           // $( "#dialog-confirm" ).dialog( "close" );
         }); 
+
+       
+       
 
     </script>
 
@@ -167,9 +191,17 @@
 <p><a href="{% url 'article_edit' article.pk %}">Edit</a> |
 <a href="{% url 'article_delete' article.pk %}">Delete</a></p>
 <p>Back to <a href="{% url 'article_list' %}">All Stories</a>.</p>
+
+<!-- Loading div -->
 <div id="loadingDiv"><div class="loader"></div>
-<h1 id="loadingText">Generating AI Prompt<br>...</h1>
+    <h1 id="loadingText">Generating AI Prompt<br>...</h1>
 </div>
+
+<!-- Dialog div -->
+<div id="dialog-confirm" title="Delete Storyline?">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+   
 
 
 {% endblock content %}
