@@ -37,6 +37,10 @@
 
 </div>
 <script>
+
+    // Current storyline ID
+    var csid = 0;
+
     // using jQuery
     function getCookie(name) {
         var cookieValue = null;
@@ -61,14 +65,82 @@
     }
 
     $.ajaxSetup({
+        
         beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
         }
     });
+   
+    function ajaxDelete(){
+
+         var example_form = '#id-exampleForm';
+         // Get Storyline ID
+         $("input[name='storyLineID']").val(csid);
+            // Dummy comment and Author to get view running here.
+            // Todo: upgrade this hack for version 2
+            $('#id_comment').val('Enter text');
+            $("#id_author").val("1").change();
+
+            var d1 = $(example_form).serialize();
+            var cm = $('#id_comment').val();
+        
+            $.ajax({
+                type: "POST",
+                url: "{% url 'article_detail' article.pk %}",          
+                data: d1,           
+                success: function(data) {
+                    if (!(data['isError'])) {                       
+                        // Reload page - TODO fix this for V2, we really want to do this from the view
+                        location.reload();                                     
+                    }
+                },
+                error: function () {
+                    // TODO - set this error handling up
+                    $(example_form).find('.error-message').show()
+                }
+            });
+    }
     
+    function delClick(storyLineID){            
+            event.preventDefault();
+           
+
+            csid = storyLineID;            
+            $( "#dialog-confirm" ).dialog( "open" );
+
+/* 
+
+            // Get Storyline ID
+            $("input[name='storyLineID']").val(storyLineID);
+            // Dummy comment and Author to get view running here.
+            // Todo: upgrade this hack for version 2
+            $('#id_comment').val('Enter text');
+            $("#id_author").val("1").change();
+
+            var d1 = $(example_form).serialize();
+            var cm = $('#id_comment').val();
+        
+            $.ajax({
+                type: "POST",
+                url: "{% url 'article_detail' article.pk %}",          
+                data: d1,           
+                success: function(data) {
+                    if (!(data['isError'])) {                       
+                        // Reload page - TODO fix this for V2, we really want to do this from the view
+                        location.reload();                                     
+                    }
+                },
+                error: function () {
+                    // TODO - set this error handling up
+                    $(example_form).find('.error-message').show()
+                }
+            }); */
+        }
+
     $(document).ready(function(){
+
 
       // Save/Submit button
       $("#submit-id-submit").click(function(){
@@ -109,61 +181,34 @@
                 }
             });
         });
-    });
+        
 
-     // Dialog fun -------------------------------------
-       
-     $( "#dialog-confirm" ).dialog({
+
+        // Dialog fun -------------------------------------
+        $( "#dialog-confirm" ).dialog({
             resizable: false,
+            autoOpen: false,
             height: "auto",
             width: 400,
             modal: true,
             buttons: {
                 "Delete Storyline": function() {
-                $( this ).dialog( "close" );
+                    switchThrobber(true, "Deleting Storyline", 500);
+                    ajaxDelete();
+                    $( this ).dialog( "close" );
                 },
                 Cancel: function() {
-                $( this ).dialog( "close" );
+                    $( this ).dialog( "close" );
                 }
             }
         });
-    $( "#dialog-confirm" ).dialog( "close" );
+    
+        // $( "#dialog-confirm" ).dialog( "close" );
 
-    function delClick(storyLineID){            
-            event.preventDefault();
-            var example_form = '#id-exampleForm';
+    });
 
-            $( "#dialog-confirm" ).dialog( "open" );
-
-            // Are you sure you want to delete this storyline?
-            // TODO - stub
-
-            // Get Storyline ID
-            $("input[name='storyLineID']").val(storyLineID);
-            // Dummy comment and Author to get view running here.
-            // Todo: upgrade this hack for version 2
-            $('#id_comment').val('Enter text');
-            $("#id_author").val("1").change();
-
-            var d1 = $(example_form).serialize();
-            var cm = $('#id_comment').val();
-        
-            $.ajax({
-                type: "POST",
-                url: "{% url 'article_detail' article.pk %}",          
-                data: d1,           
-                success: function(data) {
-                    if (!(data['isError'])) {                       
-                        // Reload page - TODO fix this for V2, we really want to do this from the view
-                        location.reload();                                     
-                    }
-                },
-                error: function () {
-                    // TODO - set this error handling up
-                    $(example_form).find('.error-message').show()
-                }
-            });
-        }
+       
+    
 
         function switchThrobber(isloading, msg, speed){
 
@@ -199,7 +244,7 @@
 
 <!-- Dialog div -->
 <div id="dialog-confirm" title="Delete Storyline?">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>This Storyline will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
    
 
