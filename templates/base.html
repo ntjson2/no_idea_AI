@@ -46,7 +46,7 @@
         {% else %}
         </ul>
         <div class="text-end">
-          <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Log In</a>
+          <a href="{% url 'login' %}" class="btn btn-outline-primary me-2 log" style="color: white; border: 1px solid white;">Log In</a>
           <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
         </div>
         {% endif %}        
@@ -72,13 +72,13 @@
     window.addEventListener('resize', function(){
       var header = document.querySelector("#base-header");
       var headerHeight = header.offsetHeight;
-      document.getElementById("spacer").style.height = headerHeight + 5 + "px"
+      document.getElementById("spacer").style.height = headerHeight + "px"
     }, true);
 
     $( document ).ready(function(){
       var header = document.querySelector("#base-header");
       var headerHeight = header.offsetHeight;
-      document.getElementById("spacer").style.height = headerHeight + 5 + "px"
+      document.getElementById("spacer").style.height = headerHeight + "px"
     })
   </script>
 </body>
