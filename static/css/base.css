@@ -20,7 +20,7 @@
     z-index: 100;
 }
 
-.c{
+.c {
     padding: 0;
     margin: 0 auto 0 auto;
     width: 90%;
@@ -58,11 +58,10 @@ body {
 }
 
 a {
-  color: rgb(233, 47, 192);
+  color: rgb(86, 214, 231);
   font-weight: 600;
   text-decoration: solid;
 }
-
 
 /* fancy button stuff */
 .imgLeft {
@@ -90,7 +89,10 @@ p.wrap1 {
 .storyLineControls{
   text-align: right;
   clear: both;
+}
 
+.log:hover {
+  background: rgba(0, 0, 0, 0.253);
 }
 
 .btnCtrls {
@@ -123,7 +125,6 @@ p.wrap1 {
   text-decoration: none;
   border: 0;
 }
-
 
 
 /************************  loader fun  ************************/
@@ -180,4 +181,92 @@ p.wrap1 {
   text-align: center;
   color:#ffffff;
   opacity: .6;  
+}
+
+/************************  Landing Page  ************************/
+
+/* HEXAGONS */
+.hex-main {
+  display:flex;
+  position: fixed;
+  top: -40px;
+  left: -40px;
+  --s: 75px;  /* size  */
+  --m: 1px;    /* margin */
+  --f: calc(1.732 * var(--s) + 4 * var(--m)  - 1px);
+  width: 120%;
+  height: 120%;
+  grid-gap: 10px;
+  z-index: -9999;
+}
+
+.hex-c {
+  font-size: 0; /*disable white space between inline block element */
+}
+
+.hex-c div {
+  width: var(--s);
+  margin: var(--m);
+  height: calc(var(--s)*1.1547); 
+  display: inline-block;
+  font-size:initial;
+  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+  background: #2d2f42;
+  margin-bottom: calc(var(--m) - var(--s)*0.2885); 
+}
+
+.hex-c::before {
+  content: "";
+  width: calc(var(--s)/2 + var(--m));
+  float: left;
+  height: 120%;
+  shape-outside: repeating-linear-gradient(     
+    #0000 0 calc(var(--f) - 3px),
+    #000  0 var(--f));
+}
+
+/* RAINBOW */
+.wrapper { 
+  background: linear-gradient(124deg, #663a3a, #8f7150, #899654, #50925a, #586a9c);
+  background-size: 1800% 1800%;
+
+  -webkit-animation: rainbow 18s ease infinite;
+  -z-animation: rainbow 18s ease infinite;
+  -o-animation: rainbow 18s ease infinite;
+  animation: rainbow 18s ease infinite;}
+
+@-webkit-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-moz-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-o-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@keyframes rainbow { 
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+
+.hex-c > *:hover {
+  background: #393c52;
+}
+
+.home-c {
+  width: 80%;
+  margin: auto auto 0 auto;
+  height: fit-content;
+  padding: 1%;
+  border: 2px solid #393c52;
+  border-radius: 25px;
+  background: #26264b;
+  text-align: center;
 }
