@@ -17,8 +17,8 @@
 <div style="background-color: var(--bg-primary-2);">
     {% cycle 'imgRight' 'imgLeft' as imgClassRotate silent %}
     <div class="{{ imgClassRotate }}">
-        <a href="{{ comment.urls }}" target="_blank">
-        <img src="{{ comment.urls }}" style="width:300px;height:300px;" class="round1"></a>
+        <!-- <a href="{{ comment.urls }}" target="_blank"> -->
+        <img src="{{ comment.urls }}" style="width:300px;height:300px;" class="round1"><!--</a>-->
     </div>
     <p class="wrap1">{{ comment }}</p>      
 </div> 
