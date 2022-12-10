@@ -3,8 +3,8 @@ import os
 
 class Dalle():
     def __init__(self):
-        self.d = Dalle2(os.getenv("DALLE2KEY"))
-        
+        self.d = Dalle2(os.getenv("DALLE_2_KEY"))
+
     def get_single_image_path(self, prompt):
         # return "https://placeholder.pics/svg/300"
         d = self.d
