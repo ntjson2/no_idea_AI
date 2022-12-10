@@ -106,6 +106,7 @@ class CommentPost(SingleObjectMixin, FormView):
                 comment = form.save(commit=False)
                 self.object = self.get_object()
                 comment.article = self.object
+                comment.author = self.request.user
                 d = Dalle()
                 comment.urls = d.get_single_image_path(origComment)
                 comment.save()

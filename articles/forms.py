@@ -18,5 +18,5 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ("comment", "author")
+        fields = ("comment",)
         labels = {"comment": "Storyline",}
