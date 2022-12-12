@@ -107,8 +107,19 @@ class CommentPost(SingleObjectMixin, FormView):
                 self.object = self.get_object()
                 comment.article = self.object
                 comment.author = self.request.user
-                d = Dalle()
-                comment.urls = d.get_single_image_path(origComment)
+
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+
+                response = openai.Image.create(
+                prompt=origComment,
+                n=1,
+                size="256x256"
+                )
+                image_url = response['data'][0]['url']
+                print(image_url)
+
+                #d = Dalle()
+                comment.urls = image_url #d.get_single_image_path(origComment)
                 comment.save()
                 return super().post(request, *args, **kwargs)
 
